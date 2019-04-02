@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 
-class NewsList extends Component {
+class AddNews extends Component {
     render() {
         return (
             <div>
-                <h1>News List here!!</h1>
+                <h1>Add News here!!</h1>
             </div>
         );
     }
 }
 
-export default NewsList;
+export default AddNews;
