@@ -10,15 +10,14 @@
     align-items: center;
     padding: 0 20px;
     box-sizing: border-box;
-    z-index: 90; /* Should be lower than backdrop */
+    z-index: 90;
+    border-bottom: 1px solid #808080;
 }
 
 .Toolbar nav {
     height: 100%;
 }
-.Layout-Content {
-    margin-top: 5rem;
-}
+
 .Logo {
     background-color: #fff;
     padding: 5px;

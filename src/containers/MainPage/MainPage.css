@@ -1,0 +1,24 @@
+.banner {
+    padding: 2rem 0;
+    background: url("../../assets/images/Banner.jpg") no-repeat;
+    background-size: cover;
+    color: lightcyan;
+    height: 60vh;
+    text-align: center;
+}
+.banner_title {
+    margin-top: 160px;
+}
+
+.card_list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.card_item {
+    width: 20%;
+    height: 10px;
+    background: #696969;
+}
+.card_img {
+    width: 100%;
+}
