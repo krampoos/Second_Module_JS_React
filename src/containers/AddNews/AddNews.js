@@ -2,52 +2,32 @@ import React, {Component} from 'react';
 import firebase, {auth} from '../../config/FbConfig';
 import './AddNews.css';
 import {connect} from "react-redux";
+import Auth from "../../components/Auth/Auth";
+import {createNews, getUserAuth, setUserLogout, uploadProgress} from "../../store/action/news";
 
 
 class AddNews extends Component {
     state = {
-      email: '',
-      pass: '',
-      fileUrl: null,
-      file: null,
-      user: null,
-      progress: ''
+        title: '',
+        text: '',
+        fileUrl: null,
+        file: null,
     };
 
-    onChangeHandler = e => {
-      e.preventDefault();
-      this.setState({
-          [e.target.name]: e.target.value
-      })
-    };
-
-    onLogin = e => {
-        e.preventDefault();
-        firebase.auth()
-            .signInWithEmailAndPassword(this.state.email, this.state.pass)
-            .then(result => {
-                const user = result.user;
-                this.setState({user});
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    };
-
-    onLogout = () => {
-        firebase.auth().signOut()
-            .then(() => {
-                this.setState({user: null});
-            });
-    };
 
     componentDidMount() {
         auth.onAuthStateChanged(user => {
             if (user) {
-                this.setState({user})
+                this.props.onUserAuth(user);
             }
         })
     }
+
+    onChangeHandler = e => {
+      this.setState({
+          [e.target.name]: e.target.value
+      });
+    };
 
     onFileSelectHandler = e => {
       this.setState({
@@ -55,8 +35,19 @@ class AddNews extends Component {
       })
     };
 
-    onFileUpload = e => {
-      e.preventDefault();
+    onSubmitHandler = e => {
+        e.preventDefault();
+
+        const news = {
+            title: this.state.title,
+            text: this.state.text
+        };
+        this.onFileUpload(news);
+
+        e.target.reset();
+    };
+
+    onFileUpload = (news) => {
         const file = this.state.file;
         const fileName = file.name;
 
@@ -66,56 +57,40 @@ class AddNews extends Component {
         uploadTask.on('state_changed', (snapshot) => {
                 //progress
                 const progress = snapshot.bytesTransferred / snapshot.totalBytes * 100;
-                this.setState({progress});
+                this.props.onProgressUpload(progress);
             },
             (error) => {
                 console.log(error)
             },
             () => {
                 uploadTask.snapshot.ref.getDownloadURL()
-                    .then(fileUrl => {
-                        this.setState({fileUrl});
+                    .then(imgUrl => {
+                        news.fileUrl = imgUrl;
+                        this.props.onNewsAdd(news);
                     })
                 }
             )
     };
+
+    onLogout = () => {
+        firebase.auth().signOut()
+            .then(() => {
+                this.props.onUserLogout();
+            });
+    };
     render() {
         let form = (
-            <form onSubmit={this.onLogin}>
-                <h1 className="display-3 md-4">Авторизация</h1>
-                <div className="form-group">
-                    <input
-                        placeholder="Email"
-                        type="email"
-                        name="email"
-                        className="form-control"
-                        value={this.state.email}
-                        onChange={this.onChangeHandler}
-                    />
-                    <input
-                        placeholder="Password"
-                        type="password"
-                        name="pass"
-                        onChange={this.onChangeHandler}
-                        value={this.state.pass}
-                        className="form-control"
-                    />
-                </div>
-                <div className="form-group">
-                    <button className="btn btn-danger">войти</button>
-                </div>
-            </form>
+            <Auth/>
         );
-        if (this.state.user) {
+        if (this.props.user) {
             form = (
                 <div className="add-news">
-                    <h1>Ect' user</h1>
-                    <button
-                        className="btn btn-warning"
-                        onClick={this.onLogout}
-                    >Выйти</button>
-                    <h2 className="display-5 my-5">Добавить картинку в хранилише</h2>
-                    <form onSubmit={this.onFileUpload}>
+                    <form onSubmit={this.onSubmitHandler}>
+                        <h2 className="add-news_title">Введите загаловок новости</h2>
+                        <input type="text" name="title" onChange={this.onChangeHandler} className="form-control"/>
+                        <h2 className="add-news_text">Введите текст новости.</h2>
+                        <textarea name="text" onChange={this.onChangeHandler}  rows="3" className="form-control"/>
+                        <h2 className="display-5 my-5">Добавить картинку в хранилише</h2>
                         <div className="custom-file md-3">
                             <input
                                 className="custom-file-input"
@@ -126,14 +101,14 @@ class AddNews extends Component {
                             <label
                                 htmlFor="uploadImg"
                                 className="custom-file-label"
-                            >выберите файл...</label>
+                                >выберите файл...</label>
                         </div>
                         <button className="btn btn-success">загрузить</button>
                         <hr/>
                         <div className="progress">
                             <div
                                 className="progress-bar bg-info"
-                                style={{width: this.state.progress + '%'}}
+                                style={{width: this.props.progress + '%'}}
                             />
                         </div>
                         <hr/>
@@ -146,7 +121,12 @@ class AddNews extends Component {
                                 />:
                                 null
                         }
+
                     </form>
+                    <button
+                        className="btn btn-warning"
+                        onClick={this.onLogout}
+                    >Выйти</button>
                 </div>
 
             )
@@ -165,13 +145,17 @@ class AddNews extends Component {
 
 const mapStateToProps = state => {
     return {
-
+        user: state.news.user,
+        progress: state.news.progress
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-
+        onUserAuth: (user) => dispatch(getUserAuth(user)),
+        onUserLogout: () => dispatch(setUserLogout()),
+        onProgressUpload: progress => dispatch(uploadProgress(progress)),
+        onNewsAdd: news => dispatch(createNews(news))
     }
 };
 

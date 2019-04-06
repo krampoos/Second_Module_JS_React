@@ -10,7 +10,7 @@ import {BrowserRouter} from "react-router-dom";
 import thunk from "redux-thunk";
 
 
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENCION_COMPOSE__ || compose;
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
    news: newsReducer
 });

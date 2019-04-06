@@ -1,14 +1,50 @@
+import * as actionTypes from './action/actionTypes';
+
+
 const initialState = {
-    email: '',
-    pass: '',
-    fileUrl: null,
-    file: null,
+    news: [],
+    progress: '',
     user: null,
-    progress: ''
+    loading: false,
+    error: false
 };
 
 const newsReducer = (state = initialState, action) => {
-    return state
+    switch(action.type) {
+        case actionTypes.USER_LOGIN:
+            return {
+                ...state,
+                user: action.user
+            };
+        case actionTypes.USER_LOGOUT:
+            return {
+                ...state,
+                user: null
+            };
+        case actionTypes.FILE_UPLOAD:
+            return {
+                ...state,
+              progress: action.progress
+            };
+        case actionTypes.NEWS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case actionTypes.NEWS_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            };
+        case actionTypes.NEWS_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: true
+            };
+        default:
+            return state;
+    }
 };
 
 export default newsReducer;
