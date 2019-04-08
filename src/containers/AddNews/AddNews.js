@@ -145,8 +145,8 @@ class AddNews extends Component {
 
 const mapStateToProps = state => {
     return {
-        user: state.news.user,
-        progress: state.news.progress
+        user: state.newsState.user,
+        progress: state.newsState.progress
     }
 };
 

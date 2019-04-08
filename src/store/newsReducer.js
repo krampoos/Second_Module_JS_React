@@ -42,6 +42,12 @@ const newsReducer = (state = initialState, action) => {
                 loading: false,
                 error: true
             };
+        case actionTypes.GET_NEWS_SUCCESS:
+            console.log(action.news);
+                return {
+                    ...state,
+                    news: action.news
+                };
         default:
             return state;
     }

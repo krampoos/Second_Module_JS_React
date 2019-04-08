@@ -1,24 +1,41 @@
 import React, {Component} from 'react';
 import './NewsList.css';
-import listImg from '../../assets/images/logo.png';
 import {connect} from 'react-redux';
+import {getNewsList} from "../../store/action/news";
+import NewsItem from "../../components/NewsItem/NewsItem";
+
+
+
 
 class NewsList extends Component {
+    componentDidMount() {
+        this.props.onNewsLoad();
+
+    }
+
+
+
     render() {
+        // let newsList = this.props.news.map(newsInfo => {
+        //     return  <NewsItem
+        //         newsImg={newsInfo.fileUrl}
+        //         title={newsInfo.title}
+        //         text={newsInfo.text}
+        //     />;
+        // });
+        let newsList = Object.keys(this.props.news).map(newsKeys => {
+            return <NewsItem
+                    key={newsKeys}
+                    newsImg={this.props.news[newsKeys].fileUrl}
+                    title={this.props.news[newsKeys].title}
+                    text={this.props.news[newsKeys].text}
+                />;
+        });
+
+
         return (
-            <div className="list-group">
-                    <a href="#" className="newsList__item list-group-item list-group-item-action flex-column align-items-start">
-                        <img src={listImg} alt="img" className="newsList__img"/>
-                        <div>
-                            <div className="d-flex w-100 justify-content-between">
-                                <h5 className="mb-1">List group item heading</h5>
-                                <small>3 days ago</small>
-                            </div>
-                            <p className="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
-                                varius blandit.</p>
-                            <small>Donec id elit non mi porta.</small>
-                        </div>
-                    </a>
+            <div>
+                {newsList}
             </div>
         );
     }
@@ -26,13 +43,13 @@ class NewsList extends Component {
 
 const mapStateToProps = state => {
   return {
-
+        news: state.newsState.news
   }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-
+        onNewsLoad: () => dispatch(getNewsList())
     }
 };
 

@@ -23,6 +23,10 @@ export const newsSuccess = () => {
     return {type: actionTypes.NEWS_SUCCESS};
 };
 
+export const getNewsSuccess = (news) => {
+    return {type: actionTypes.GET_NEWS_SUCCESS, news};
+};
+
 export const newsError = () => {
     return {type: actionTypes.NEWS_ERROR};
 };
@@ -32,6 +36,16 @@ export const createNews = news => {
         dispatch(newsRequest());
         axios.post('/news.json', news).then(
             response => dispatch(newsSuccess()),
+            error => dispatch(newsError())
+        )
+    }
+};
+
+export const getNewsList = () => {
+    return dispatch => {
+        dispatch(newsRequest());
+        axios.get('/news.json').then(
+            response => dispatch(getNewsSuccess(response.data)),
             error => dispatch(newsError())
         )
     }

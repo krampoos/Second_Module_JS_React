@@ -26,6 +26,7 @@ class Auth extends Component {
             .catch(error => {
                 console.log(error);
             })
+        e.target.reset();
     };
 
 

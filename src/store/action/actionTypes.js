@@ -4,6 +4,7 @@ export const FILE_UPLOAD = 'FILE_UPLOAD';
 
 export const NEWS_REQUEST = 'NEWS_REQUEST';
 export const NEWS_SUCCESS = 'NEWS_SUCCESS';
+export const GET_NEWS_SUCCESS = 'GET_NEWS_SUCCESS';
 export const NEWS_ERROR = 'NEWS_ERROR';
 
 
