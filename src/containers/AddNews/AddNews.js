@@ -40,7 +40,8 @@ class AddNews extends Component {
 
         const news = {
             title: this.state.title,
-            text: this.state.text
+            text: this.state.text,
+            date: new Date().getTime()
         };
         this.onFileUpload(news);
 

@@ -27,6 +27,10 @@ export const getNewsSuccess = (news) => {
     return {type: actionTypes.GET_NEWS_SUCCESS, news};
 };
 
+export const getNewsCardSuccess = (news) => {
+    return {type: actionTypes.GET_NEWS_CARD, news};
+};
+
 export const newsError = () => {
     return {type: actionTypes.NEWS_ERROR};
 };
@@ -46,6 +50,16 @@ export const getNewsList = () => {
         dispatch(newsRequest());
         axios.get('/news.json').then(
             response => dispatch(getNewsSuccess(response.data)),
+            error => dispatch(newsError())
+        )
+    }
+};
+
+export const getNewsCard = () => {
+    return dispatch => {
+        dispatch(newsRequest());
+        axios.get('/news.json?orderBy="date"&limitToLast=3').then(
+            response => dispatch(getNewsCardSuccess(response.data)),
             error => dispatch(newsError())
         )
     }

@@ -1,0 +1,12 @@
+.card-text {
+    overflow: hidden;
+}
+.img-wrapp {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+.card-img-top {
+    width: 100%;
+    height: 180px;
+}

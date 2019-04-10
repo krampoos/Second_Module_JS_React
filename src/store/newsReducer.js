@@ -48,6 +48,12 @@ const newsReducer = (state = initialState, action) => {
                     ...state,
                     news: action.news
                 };
+        case actionTypes.GET_NEWS_CARD:
+            console.log(action.news);
+            return {
+                ...state,
+                news: action.news
+            };
         default:
             return state;
     }

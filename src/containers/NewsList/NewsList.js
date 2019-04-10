@@ -13,8 +13,6 @@ class NewsList extends Component {
 
     }
 
-
-
     render() {
         // let newsList = this.props.news.map(newsInfo => {
         //     return  <NewsItem
@@ -29,6 +27,7 @@ class NewsList extends Component {
                     newsImg={this.props.news[newsKeys].fileUrl}
                     title={this.props.news[newsKeys].title}
                     text={this.props.news[newsKeys].text}
+                    date={this.props.news[newsKeys].date}
                 />;
         });
 

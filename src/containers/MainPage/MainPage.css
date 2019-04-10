@@ -19,6 +19,11 @@
     margin: 0 auto;
 }
 
+.card__title {
+    color: lightcyan;
+    text-align: center;
+}
+
 .card_news {
     margin-top: 50px;
     display: grid;
