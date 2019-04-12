@@ -10,7 +10,6 @@ class MainPage extends Component {
 
     componentDidMount() {
         this.props.onNewsLoad();
-
     }
 
 
@@ -21,6 +20,7 @@ class MainPage extends Component {
                 newsImg={this.props.newsInfo[newsKeys].fileUrl}
                 title={this.props.newsInfo[newsKeys].title}
                 text={this.props.newsInfo[newsKeys].text}
+                id={newsKeys}
             />
         });
     return (

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './NewsList.css';
 import {connect} from 'react-redux';
-import {getNewsList} from "../../store/action/news";
+import {getNewsList, removeNews} from "../../store/action/news";
 import NewsItem from "../../components/NewsItem/NewsItem";
 
 
@@ -28,6 +28,8 @@ class NewsList extends Component {
                     title={this.props.news[newsKeys].title}
                     text={this.props.news[newsKeys].text}
                     date={this.props.news[newsKeys].date}
+                    id={newsKeys}
+                    remove={() => this.props.onPostDelete(newsKeys)}
                 />;
         });
 
@@ -48,7 +50,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onNewsLoad: () => dispatch(getNewsList())
+        onNewsLoad: () => dispatch(getNewsList()),
+        onPostDelete: (id) => dispatch(removeNews(id))
     }
 };
 

@@ -2,7 +2,7 @@ import * as actionTypes from './action/actionTypes';
 
 
 const initialState = {
-    news: [],
+    news: {},
     progress: '',
     user: null,
     loading: false,
@@ -43,16 +43,39 @@ const newsReducer = (state = initialState, action) => {
                 error: true
             };
         case actionTypes.GET_NEWS_SUCCESS:
-            console.log(action.news);
                 return {
                     ...state,
                     news: action.news
                 };
         case actionTypes.GET_NEWS_CARD:
-            console.log(action.news);
             return {
                 ...state,
                 news: action.news
+            };
+        case actionTypes.GET_MORE_INFO:
+        return {
+            ...state,
+            news: action.news
+        };
+        case actionTypes.REMOVE_NEWS:
+            // const index = state.news.findIndex(newsItem => newsItem.id === action.id);
+            // const deleteKey = Object.keys(state.news).findIndex(item => item === action.id);
+            // const newsCopy = {...state.news};
+            //
+            // const news =
+            //
+            // console.log(news);
+
+
+            return {
+                ...state,
+                loading: false,
+                news: Object.keys(state.news).reduce((acc, elem) => {
+                    if (elem !== action.id) {
+                        acc[elem] = state.news[elem];
+                    }
+                    return acc;
+                }, {})
             };
         default:
             return state;
